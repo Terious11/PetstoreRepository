@@ -21,28 +21,6 @@ public class Order {
 	private String status;
 	private boolean complete;
 	
-	public enum StatusEnum {
-		PLACED("placed"),
-
-		APPROVED("approved"),
-
-		DELIVERED("delivered");
-
-		private String value;
-
-		StatusEnum(String value) {
-			this.setValue(value);
-		}
-
-		public String getValue() {
-			return value;
-		}
-
-		public void setValue(String value) {
-			this.value = value;
-		}
-	}
-
 	public Long getId() {
 		return id;
 	}
