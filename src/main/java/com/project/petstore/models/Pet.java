@@ -1,38 +1,43 @@
 package com.project.petstore.models;
 
+import java.io.Serializable;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "PETS")
-public class Pet {
-
-	@Id
-	private Long id;
-	private String name;
-	private String[] photoUrls;
-
-//	
-//	@OneToMany(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "tag_id")
-//	private List<Tag> tags;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="category_id")
-	private Category category;
-
-
+public class Pet implements Serializable{
 	
-	@Column(name="status")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "name")
+	private String name;
+	@Column(name = "photo_Urls")
+	private String photoUrls;
+	@Column(name = "status")
 	private String status;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "tags")
+	private Tag tags;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "category")
+	private Category category;
+
 	public Pet() {
-		//this.tags = new ArrayList<Tag>();
+		// this.tags = new ArrayList<Tag>();
 	}
 
 	public Long getId() {
@@ -43,8 +48,6 @@ public class Pet {
 		this.id = id;
 	}
 
-	
-
 	public String getName() {
 		return name;
 	}
@@ -53,20 +56,21 @@ public class Pet {
 		this.name = name;
 	}
 
-	
-
-	public String[] getPhotoUrls() {
+	public String getPhotoUrls() {
 		return photoUrls;
 	}
 
-	public void setPhotoUrls(String[] photoUrls) {
+	public void setPhotoUrls(String photoUrls) {
 		this.photoUrls = photoUrls;
 	}
-	/*
-	 * public List<Tag> getTags() { return tags; }
-	 * 
-	 * public void setTags(List<Tag> tags) { this.tags = tags; }
-	 */
+
+	public Tag getTags() {
+		return tags;
+	}
+
+	public void setTags(Tag tags) {
+		this.tags = tags;
+	}
 
 	public Category getCategory() {
 		return category;
@@ -75,13 +79,18 @@ public class Pet {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	private static final long serialVersionUID = 1L;
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

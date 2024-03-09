@@ -2,7 +2,12 @@ package com.project.petstore.models;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -12,13 +17,27 @@ import jakarta.persistence.TemporalType;
 @Table(name = "ORDERS")
 public class Order {
 
+	public Order() {
+		
+		shipDate = new Date();
+	}
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	private Long id;
+	
 	private Long petId;
+	@Column(name="quantity")
 	private int quantity;
-	@Temporal(TemporalType.TIMESTAMP)
+	
+	@Column(name="shipDate")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date shipDate;
+	
+	@Column(name="status")
 	private String status;
+	@Column(name="complete")
 	private boolean complete;
 	
 	public Long getId() {

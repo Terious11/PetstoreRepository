@@ -1,5 +1,8 @@
 package com.project.petstore.models;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,15 +13,21 @@ import jakarta.persistence.Table;
 public class User {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	private Long id;
-	@Column(name="username")
+	@Column(name="username" )
 	private String username;
+	@Column(name="firstName" )
 	private String firstName;
+	@Column(name="lastName" )
 	private String lastName;
+	@Column(name="email")
 	private String email;
+	@Column(name="password" )
 	private String password;
+	@Column(name="phone", length = 10 )
 	private String phone;
-	
+	@Column(name="userStatus")
 	private int userStatus;
 	
 	public Long getId() {

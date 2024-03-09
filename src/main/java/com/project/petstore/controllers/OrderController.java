@@ -3,6 +3,7 @@ package com.project.petstore.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +23,9 @@ public class OrderController {
 	IOrderService orderService;
 	
 	@GetMapping("/inventory")
-	public List<Order> statusString(){
+	public List<String> statusString(){
 		
-		return orderService.listaOrder();
+		return orderService.statusList();
 	}
 	
 	@PostMapping("/order")
@@ -34,13 +35,13 @@ public class OrderController {
 	}
 	
 	@GetMapping("/order/{id}")
-	public Order findById(@PathVariable("id") Long id) {
+	public ResponseEntity<?> findById(@PathVariable("id") Long id) {
 		
 		return orderService.orderById(id);
 	}
 	
 	@DeleteMapping("/order/{id}")
-	public String deleteOrder(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteOrder(@PathVariable("id") Long id) {
 		
 		return orderService.deleteOrder(id);
 	}

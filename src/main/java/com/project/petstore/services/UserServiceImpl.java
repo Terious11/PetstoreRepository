@@ -3,70 +3,98 @@ package com.project.petstore.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.petstore.controllers.HandleExcepcionController;
 import com.project.petstore.dao.IUserDao;
 import com.project.petstore.models.User;
 
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	IUserDao userDao;
-	
+
+	@Autowired
+	HandleExcepcionController responses;
+
 	@Override
 	public User createUser(User userCreate) {
 		// TODO Auto-generated method stub
 		return userDao.save(userCreate);
 	}
-	
+
 	@Override
 	public List<User> createWithList(List<User> userAll) {
-		
-		
+
 		return userDao.saveAll(userAll);
 	}
+
+	@Override
+	public ResponseEntity<?> getUser(String username) {
+
+		try {
+			User userExist = userDao.findByUsername(username);
+
+			if (userExist.getId() != null) {
+				return ResponseEntity.ok(userExist);
+			}
+			return (ResponseEntity<?>) ResponseEntity.notFound();
+
+		} catch (Exception e) {
+			return responses.errorInternUsername500(e);
+		}
+
+	}
+
+	@Override
+	public ResponseEntity<?> updateUser(String username, User userUpdate) {
+
+		try {
+			User userOld = userDao.findByUsername(username);
+
+			if (userOld.getId() != null) {
+				userOld.setFirstName(userUpdate.getFirstName());
+				userOld.setLastName(userUpdate.getLastName());
+				userOld.setEmail(userUpdate.getEmail());
+				userOld.setPhone(userUpdate.getPhone());
+				userOld.setUserStatus(userUpdate.getUserStatus());
+				userOld.setPassword(userUpdate.getPassword());
+				userOld.setUsername(userUpdate.getUsername());
+				userDao.save(userOld);
+
+				return ResponseEntity.ok(userOld);
+			}
+			return (ResponseEntity<?>) ResponseEntity.notFound();
+
+		} catch (Exception e) {
+			return responses.errorInternUsername500(e);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> deleteUser(String username) {
 	
-	@Override
-	public User getUser(String username) {
-		
-		return userDao.findByUsername(username);
-	}
+		try {
+			User userDelete = userDao.findByUsername(username);
 
-	@Override
-	public User updateUser(String username, User userUpdate) {
-		User user = userDao.findByUsername(username);
-		user.setFirstName(userUpdate.getFirstName());
-		user.setLastName(userUpdate.getLastName());
-		user.setEmail(userUpdate.getEmail());
-		user.setPhone(userUpdate.getPhone());
-		user.setUserStatus(userUpdate.getUserStatus());
-		user.setPassword(userUpdate.getPassword());
-		user.setUsername(userUpdate.getUsername());
-		userDao.save(user);
-		
-		return user;
-	}
+			if (userDelete.getId() != null) {
+				userDao.delete(userDelete);
+				return ResponseEntity.ok("delete");
+			}
+			return (ResponseEntity<?>) ResponseEntity.notFound();
 
-	@Override
-	public String deleteUser(String username) {
-		User userDelete = userDao.findByUsername(username);
-		userDao.delete(userDelete);
-		
-		return "DONE";
+		} catch (Exception e) {
+			return responses.errorInternUsername500(e);
+		}
 	}
 
 	@Override
 	public String getLogin(String username, String password) {
 		// TODO Auto-generated method stub
-		User userGetLogin = userDao.findByUsername(username);
 		
-		if(!userGetLogin.getUsername().isEmpty() || !userGetLogin.getPassword().isEmpty()) {
-			
-			return "Login";
-		}
-		
-		return "Error";
+		return "Login";
 	}
 
 	@Override
@@ -75,7 +103,4 @@ public class UserServiceImpl implements IUserService{
 		return "successful operation";
 	}
 
-	
-	
-	
 }

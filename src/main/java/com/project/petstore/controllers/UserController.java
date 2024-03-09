@@ -3,6 +3,7 @@ package com.project.petstore.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,19 +36,19 @@ public class UserController {
 	}
 
 	@GetMapping("/{username}")
-	public User getUsername(@PathVariable("username") String username) {
+	public ResponseEntity<?> getUsername(@PathVariable("username") String username) {
 
 		return userService.getUser(username);
 	}
 
 	@PutMapping("/{username}")
-	public User updateUser(@PathVariable("username") String username, @RequestBody User userUpdate) {
+	public ResponseEntity<?> updateUser(@PathVariable("username") String username, @RequestBody User userUpdate) {
 
 		return userService.updateUser(username, userUpdate);
 	}
 
 	@DeleteMapping("/{username}")
-	public String deleteUser(@PathVariable("username") String username) {
+	public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {
 
 		return userService.deleteUser(username);
 	}

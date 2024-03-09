@@ -1,11 +1,8 @@
 package com.project.petstore.models;
 
-import jakarta.persistence.Table;
-
-@Table(name="API_RESPONSES")
 public class ApiResponse {
 	
-	
+
 	private int code;
 	private String type;
 	private String message;

@@ -1,12 +1,14 @@
 package com.project.petstore.services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.petstore.controllers.HandleExcepcionController;
 import com.project.petstore.dao.IOrderDao;
 import com.project.petstore.models.Order;
 
@@ -16,39 +18,18 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	IOrderDao orderDao;
 
+	@Autowired
+	HandleExcepcionController exception;
+
 	@Override
 	public List<String> statusList() {
 		List<String> lista = new ArrayList<String>();
-		Order orderPlaced = new Order();
-		/*
-		 * Order orderApproved= new Order(); Order orderDeliveried=new Order();
-		 */
-		orderPlaced = orderDao.findByStatus("placed");
 		
+		lista.add("placed: "+orderDao.findByStatusPlacedCount());
+		lista.add("approved: "+orderDao.findByStatusApprovedCount());
+		lista.add("delivered: "+orderDao.findByStatusDeliveredCount());
 		
-		
-		/*
-		 * lista.add("" + orderPlaced.getStatus().length()); orderApproved =
-		 * orderDao.findByStatus("approved"); lista.add("" +
-		 * orderApproved.getStatus().length()); orderDeliveried =
-		 * orderDao.findByStatus("deliveried"); lista.add("" +
-		 * orderDeliveried.getStatus().length());
-		 */
 		return lista;
-	}
-	
-	@Override
-	public List<Order> listaOrder() {
-		//List<Order> lista = new ArrayList<Order>() ;
-		String placed = "placed";
-		List<Long> cantidad = new ArrayList<Long>();
-		
-		
-		
-		
-		List<Order> findByStatus = (List<Order>) orderDao.findByStatus("placed");
-		return findByStatus;
-		
 	}
 
 	@Override
@@ -58,33 +39,35 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public Order orderById(Long id) {
-
-		return orderDao.findById(id).orElse(null);
+	public ResponseEntity<?> orderById(Long id) {
+		try {
+			Optional<Order> order = orderDao.findById(id);
+			if (!order.isEmpty()) {
+				return ResponseEntity.ok(order);
+			} else {
+				return (ResponseEntity<?>) ResponseEntity.badRequest();
+			}
+		} catch (Exception e) {
+			return exception.errorInternId500(e);
+		}
 	}
 
 	@Override
-	public String deleteOrder(Long id) {
+	public ResponseEntity<?> deleteOrder(Long id) {
 		try {
-			if(orderDao.findById(id).isEmpty()) {
-			
-				return "Id Empty";
-			}
-			else 
-			{
+			if (!orderDao.findById(id).isEmpty()) {
 				orderDao.deleteById(id);
-				
-				return "delete";
+				return ResponseEntity.ok("Delete");
+			} else {
+
+				return (ResponseEntity<?>) ResponseEntity.badRequest();
 			}
-				
-			
-		}catch (Exception e) {
-				
-			return e.getMessage();
+
+		} catch (Exception e) {
+
+			return exception.errorInternId500(e);
 		}
-		
+
 	}
-
-
 
 }
