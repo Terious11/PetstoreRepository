@@ -1,21 +1,20 @@
 package com.project.petstore.services;
 
-import java.util.List;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.petstore.models.Pet;
 
 public interface IPetService {
 	
-	public Pet updatePetById(Long id,Pet pet);
-	public Pet createPet(Pet pet, MultipartFile foto);
-	public List<Pet> findByStatus(String status);
-	//public List<Pet> findByTags(String tag);
-	public Pet findById(Long id);
-	public Pet UpdateById(Long id, Pet pet);
-	public String deletePet(Long id);
-	public String uploadImage(Long id, String foto);
+	public ResponseEntity<?> updatePetById(Long id,Pet pet, MultipartFile photoUrls);
+	public ResponseEntity<?> createPet(Pet pet, MultipartFile photoUrls);
+	public ResponseEntity<?> findByStatus(String petStatus);
+	public ResponseEntity<?> findByTags();
+	public ResponseEntity<?> findById(Long id);
+	public ResponseEntity<?> updateById(Long id, Pet pet);
+	public ResponseEntity<?> deletePet(Long id);
+	public ResponseEntity<?> uploadImage(Long id, MultipartFile photoUrls);
 	
 	
 }

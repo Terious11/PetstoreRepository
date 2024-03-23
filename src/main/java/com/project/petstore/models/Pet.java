@@ -5,7 +5,6 @@ import java.io.Serializable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,17 +27,18 @@ public class Pet implements Serializable{
 	@Column(name = "status")
 	private String status;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "tags")
+	//creacion de llave foranea many to one con la tabla tag
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_Tags",referencedColumnName ="id")
 	private Tag tags;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "category")
+	
+	
+	//creacion de llave foranea one to one con la tabla de categoria
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_Category",referencedColumnName ="id")
 	private Category category;
 
-	public Pet() {
-		// this.tags = new ArrayList<Tag>();
-	}
 
 	public Long getId() {
 		return id;

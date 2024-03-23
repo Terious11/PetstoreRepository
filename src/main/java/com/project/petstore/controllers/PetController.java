@@ -1,9 +1,7 @@
 package com.project.petstore.controllers;
 
-import java.nio.file.*;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,61 +23,53 @@ public class PetController {
 
 	@Autowired
 	IPetService petService;
-	
-	
-	@PutMapping("/{id}")
-	public Pet updateById(@PathVariable Long id, @RequestBody Pet pet) {
-		
-		return petService.updatePetById(id, pet);
-	}
-	
-	@PostMapping("")
-	public Pet createPet(@RequestBody Pet pet,@RequestParam("photoUrls") MultipartFile foto) {
 
-		return petService.createPet(pet, foto);
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateById(@PathVariable Long id,@RequestPart("pet") Pet pet,@RequestParam("file") MultipartFile file) {
+
+		return petService.updatePetById(id, pet, file);
 	}
-	
-	@GetMapping("findByStatus")
-	public List<Pet> findByStatus(String status){
-		
-		return petService.findByStatus(status);
+
+	@PostMapping("")
+	public ResponseEntity<?> createPet(@RequestPart("pet") Pet pet,@RequestParam("file") MultipartFile file) {
+
+		return petService.createPet(pet, file);
 	}
-	
-	@GetMapping("findByTags")
-	public List<Pet> findByTags(String tags){
-		
-		//return petService.findByTags(tags);
-		return null;
+
+	@GetMapping("/findByStatus/{petStatus}")
+	public ResponseEntity<?> findByStatus(@PathVariable String petStatus) {
+
+		return petService.findByStatus(petStatus);
 	}
-	
+
+	@GetMapping("/findByTags")
+	public ResponseEntity<?> findByTags() {
+
+		return petService.findByTags();
+		}
+
 	@GetMapping("/{id}")
-	public Pet findById(@PathVariable Long id) {
-		
+	public ResponseEntity<?> findById(@PathVariable Long id) {
+
 		return petService.findById(id);
 	}
-	
+
 	@PostMapping("/{id}")
-	public Pet updatePet(@PathVariable Long id,@RequestBody Pet pet) {
-		
-		return petService.UpdateById(id, pet);
+	public ResponseEntity<?> updatePet(@PathVariable Long id, @RequestBody Pet pet) {
+
+		return petService.updateById(id, pet);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public String deletePet(@PathVariable Long id) {
-		
+	public ResponseEntity<?> deletePet(@PathVariable Long id) {
+
 		return petService.deletePet(id);
 	}
-	
+
 	@PostMapping("/{id}/uploadImage")
-	public String uploadImagePet (@PathVariable Long id, @PathVariable String photoUrls) {
-		
-		return petService.uploadImage(id, photoUrls);
+	public ResponseEntity<?> uploadImagePet(@PathVariable Long id,@RequestParam("file") MultipartFile file) {
+
+		return petService.uploadImage(id, file);
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

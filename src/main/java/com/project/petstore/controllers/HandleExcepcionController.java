@@ -39,6 +39,15 @@ public class HandleExcepcionController {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
 	}
 	
+	public ResponseEntity<ApiResponse> errorPet(Exception ex){
+		ApiResponse apiResponse = new ApiResponse();
+		apiResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		apiResponse.setMessage("Id No Encontrado de Pet");
+		apiResponse.setType("Error Id");
+		
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
+	}
+	
 	
 	
 }
