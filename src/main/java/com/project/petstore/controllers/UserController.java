@@ -24,13 +24,13 @@ public class UserController {
 	IUserService userService;
 
 	@PostMapping("")
-	public User createUser(@RequestBody User userCreate) {
+	public ResponseEntity<?> createUser(@RequestBody User userCreate) {
 
 		return userService.createUser(userCreate);
 	}
 	
 	@PostMapping("/createWithList")
-	public List<User> createWithList(@RequestBody List<User> userList) {
+	public ResponseEntity<?> createWithList(@RequestBody List<User> userList) {
 
 		return userService.createWithList(userList);
 	}

@@ -25,15 +25,15 @@ public class PetController {
 	IPetService petService;
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateById(@PathVariable Long id,@RequestPart("pet") Pet pet,@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<?> updateById(@PathVariable Long id,@RequestPart("pet") Pet petUpdate,@RequestParam("file") MultipartFile file) {
 
-		return petService.updatePetById(id, pet, file);
+		return petService.updatePetById(id, petUpdate, file);
 	}
 
 	@PostMapping("")
-	public ResponseEntity<?> createPet(@RequestPart("pet") Pet pet,@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<?> createPet(@RequestPart("pet") Pet petCreate,@RequestParam("file") MultipartFile fileCreatePet) {
 
-		return petService.createPet(pet, file);
+		return petService.createPet(petCreate, fileCreatePet);
 	}
 
 	@GetMapping("/findByStatus/{petStatus}")

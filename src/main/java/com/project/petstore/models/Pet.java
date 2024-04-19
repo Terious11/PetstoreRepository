@@ -26,19 +26,16 @@ public class Pet implements Serializable{
 	private String photoUrls;
 	@Column(name = "status")
 	private String status;
-
-	//creacion de llave foranea many to one con la tabla tag
+	
+	//CREACION DE LLAVE FORANEA MANY TO ONE CON LA TABLA TAG
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_Tags",referencedColumnName ="id")
 	private Tag tags;
 
-	
-	
-	//creacion de llave foranea one to one con la tabla de categoria
+	//CREACION DE LLAVE FORANE ONE TO ONE CON LA TABLA DE CATEGORIA
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_Category",referencedColumnName ="id")
 	private Category category;
-
 
 	public Long getId() {
 		return id;

@@ -11,9 +11,10 @@ import com.project.petstore.models.ApiResponse;
 @RestControllerAdvice
 public class HandleExcepcionController {
 
+	public ApiResponse apiResponse = new ApiResponse();
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ResponseEntity<ApiResponse> badRequestError404(Exception ex){
-		ApiResponse apiResponse = new ApiResponse();
+		
 		apiResponse.setCode(HttpStatus.NOT_FOUND.value());
 		apiResponse.setMessage(ex.getMessage());
 		apiResponse.setType("Api Rest no Encontrado ");
@@ -22,7 +23,7 @@ public class HandleExcepcionController {
 	}
 	
 	public ResponseEntity<ApiResponse> errorInternUsername500(Exception ex){
-		ApiResponse apiResponse = new ApiResponse();
+		
 		apiResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		apiResponse.setMessage("Usuario no encontrado");
 		apiResponse.setType("Error Usuario");
@@ -31,7 +32,7 @@ public class HandleExcepcionController {
 	}
 	
 	public ResponseEntity<ApiResponse> errorInternId500(Exception ex){
-		ApiResponse apiResponse = new ApiResponse();
+		
 		apiResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		apiResponse.setMessage("Id no encontrado");
 		apiResponse.setType("Error Id");
@@ -40,7 +41,7 @@ public class HandleExcepcionController {
 	}
 	
 	public ResponseEntity<ApiResponse> errorPet(Exception ex){
-		ApiResponse apiResponse = new ApiResponse();
+		
 		apiResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		apiResponse.setMessage("Id No Encontrado de Pet");
 		apiResponse.setType("Error Id");

@@ -20,15 +20,25 @@ public class UserServiceImpl implements IUserService {
 	HandleExcepcionController responses;
 
 	@Override
-	public User createUser(User userCreate) {
-		// TODO Auto-generated method stub
-		return userDao.save(userCreate);
+	public ResponseEntity<?> createUser(User userCreate) {
+		try {
+			
+			return ResponseEntity.ok(userDao.save(userCreate));
+		}catch (Exception e) {
+			
+			return responses.errorInternUsername500(e);
+		}
 	}
 
 	@Override
-	public List<User> createWithList(List<User> userAll) {
-
-		return userDao.saveAll(userAll);
+	public ResponseEntity<?> createWithList(List<User> userAll) {
+		try {
+			
+			return ResponseEntity.ok(userDao.saveAll(userAll));
+		}catch (Exception e) {
+			
+			return responses.errorInternUsername500(e);
+		}
 	}
 
 	@Override

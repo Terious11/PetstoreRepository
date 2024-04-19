@@ -1,7 +1,5 @@
 package com.project.petstore.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,26 +21,26 @@ public class OrderController {
 	IOrderService orderService;
 	
 	@GetMapping("/inventory")
-	public List<String> statusString(){
+	public ResponseEntity<?> statusString(){
 		
 		return orderService.statusList();
 	}
 	
 	@PostMapping("/order")
-	public Order createOrder(@RequestBody  Order orderNew) {
+	public ResponseEntity<?> createOrder(@RequestBody  Order orderNew) {
 		
 		return orderService.createOrder(orderNew);
 	}
 	
 	@GetMapping("/order/{id}")
-	public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+	public ResponseEntity<?> findById(@PathVariable("id") Long idFindOrder) {
 		
-		return orderService.orderById(id);
+		return orderService.orderById(idFindOrder);
 	}
 	
 	@DeleteMapping("/order/{id}")
-	public ResponseEntity<?> deleteOrder(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteOrder(@PathVariable("id") Long idDeleteOrder) {
 		
-		return orderService.deleteOrder(id);
+		return orderService.deleteOrder(idDeleteOrder);
 	}
 }
